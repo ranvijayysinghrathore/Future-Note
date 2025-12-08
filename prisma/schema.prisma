@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+model Goal {
+  id                String   @id @default(uuid())
+  goalText          String   @db.VarChar(500)
+  email             String   // Encrypted
+  createdAt         DateTime @default(now())
+  reminderDate      DateTime
+  deleteToken       String   @unique
+  unsubscribeToken  String   @unique
+  responseToken     String   @unique
+  isPublic          Boolean  @default(true)
+  isFlagged         Boolean  @default(false)
+  isDeleted         Boolean  @default(false)
+  reminderSent      Boolean  @default(false)
+  achieved          Boolean?
+  achievedAt        DateTime?
+  ipAddress         String
+
+  emailLogs EmailLog[]
+  reports   Report[]
+
+  @@index([reminderDate, reminderSent])
+  @@index([isDeleted, isFlagged, isPublic])
+  @@index([ipAddress])
+}
+
+model EmailLog {
+  id               String        @id @default(uuid())
+  goalId           String
+  emailType        EmailType
+  status           EmailStatus
+  sentAt           DateTime      @default(now())
+  mailgunMessageId String?
+  errorMessage     String?
+
+  goal Goal @relation(fields: [goalId], references: [id], onDelete: Cascade)
+
+  @@index([goalId])
+  @@index([status])
+}
+
+model Report {
+  id         String   @id @default(uuid())
+  goalId     String
+  reason     String
+  reportedAt DateTime @default(now())
+  ipAddress  String
+  resolved   Boolean  @default(false)
+
+  goal Goal @relation(fields: [goalId], references: [id], onDelete: Cascade)
+
+  @@index([goalId])
+  @@index([resolved])
+}
+
+model Admin {
+  id          String    @id @default(uuid())
+  email       String    @unique
+  password    String    // bcrypt hashed
+  name        String
+  role        AdminRole
+  createdAt   DateTime  @default(now())
+  lastLoginAt DateTime?
+  isActive    Boolean   @default(true)
+
+  @@index([email])
+}
+
+enum EmailType {
+  CONFIRMATION
+  REMINDER
+  ACHIEVEMENT
+}
+
+enum EmailStatus {
+  SENT
+  FAILED
+  BOUNCED
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  MODERATOR
+}
