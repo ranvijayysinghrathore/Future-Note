@@ -1,9 +1,17 @@
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import nodemailer from 'nodemailer';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+const GMAIL_EMAIL = process.env.GMAIL_EMAIL;
+const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD;
+
+// Create reusable transporter
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: GMAIL_EMAIL,
+    pass: GMAIL_APP_PASSWORD,
+  },
+});
 
 export async function sendConfirmationEmail(
   email: string,
@@ -46,8 +54,8 @@ export async function sendConfirmationEmail(
       </html>
     `;
     
-    const result = await resend.emails.send({
-      from: FROM_EMAIL,
+    const result = await transporter.sendMail({
+      from: `"FutureNote" <${GMAIL_EMAIL}>`,
       to: email,
       subject: 'Your 4-Year Goal Has Been Saved ✨',
       html,
@@ -55,7 +63,7 @@ export async function sendConfirmationEmail(
     
     return {
       success: true,
-      messageId: result.data?.id,
+      messageId: result.messageId,
     };
   } catch (error: unknown) {
     console.error('Error sending confirmation email:', error);
@@ -117,8 +125,8 @@ export async function sendReminderEmail(
       </html>
     `;
     
-    const result = await resend.emails.send({
-      from: FROM_EMAIL,
+    const result = await transporter.sendMail({
+      from: `"FutureNote" <${GMAIL_EMAIL}>`,
       to: email,
       subject: '🎯 Your 4-Year Goal Reminder',
       html,
@@ -126,7 +134,7 @@ export async function sendReminderEmail(
     
     return {
       success: true,
-      messageId: result.data?.id,
+      messageId: result.messageId,
     };
   } catch (error: unknown) {
     console.error('Error sending reminder email:', error);
@@ -176,8 +184,8 @@ export async function sendAchievementEmail(
       </html>
     `;
     
-    const result = await resend.emails.send({
-      from: FROM_EMAIL,
+    const result = await transporter.sendMail({
+      from: `"FutureNote" <${GMAIL_EMAIL}>`,
       to: email,
       subject: achieved ? '🎉 Congratulations!' : '💪 Keep Going!',
       html,
@@ -185,7 +193,7 @@ export async function sendAchievementEmail(
     
     return {
       success: true,
-      messageId: result.data?.id,
+      messageId: result.messageId,
     };
   } catch (error: unknown) {
     console.error('Error sending achievement email:', error);
