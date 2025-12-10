@@ -19,6 +19,7 @@ export async function GET(request: NextRequest) {
         id: true,
         goalText: true,
         createdAt: true,
+        userName: true,
       },
       orderBy: {
         createdAt: 'desc',

@@ -60,8 +60,15 @@ export function validateEmail(email: string): boolean {
 export const goalSubmissionSchema = z.object({
   goalText: z.string()
     .min(10, 'Goal must be at least 10 characters')
-    .max(500, 'Goal must not exceed 500 characters'),
-  email: z.string().email('Invalid email address'),
+    .max(500, 'Goal must be less than 500 characters'),
+  email: z.string()
+    .email('Invalid email address')
+    .max(100, 'Email too long'),
+  userName: z.string()
+    .min(1, 'Name is required')
+    .max(50, 'Name too long')
+    .default('Anonymous'),
+  category: z.enum(['CAREER', 'HEALTH', 'FINANCE', 'RELATIONSHIPS', 'LEARNING', 'OTHER']).optional().default('OTHER'),
 });
 
 export type GoalSubmission = z.infer<typeof goalSubmissionSchema>;

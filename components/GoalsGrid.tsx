@@ -1,13 +1,28 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 import { Flag } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface Goal {
   id: string;
   goalText: string;
   createdAt: string;
+  userName: string;
 }
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+};
 
 export default function GoalsGrid() {
   const [goals, setGoals] = useState<Goal[]>([]);
@@ -85,37 +100,50 @@ export default function GoalsGrid() {
   return (
     <div className="space-y-8">
       {/* Goals Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <motion.div 
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+      >
         {goals.map((goal, index) => (
-          <div
+          <motion.div
             key={goal.id}
-            className="card group relative"
-            style={{ animationDelay: `${index * 50}ms` }}
+            variants={item}
+            className="h-full"
           >
-            {/* Report button */}
-            <button
-              onClick={() => handleReport(goal.id)}
-              className="absolute top-16 right-1 group-hover:opacity-100 transition-opacity text-charcoal-light hover:text-red-500"
-              title="Report inappropriate content"
-            >
-              <Flag size={16} />
-            </button>
+            <div className="card group relative flex flex-col h-full bg-white/50 backdrop-blur-md border border-white/50 hover:bg-white/80 transition-all duration-300 shadow-sm hover:shadow-lg">
+              {/* Report button */}
+              <button
+                onClick={() => handleReport(goal.id)}
+                className="absolute top-1 right-1 group-hover:opacity-100 transition-opacity text-charcoal-light hover:text-red-500 z-20"
+                title="Report inappropriate content"
+              >
+                <Flag size={16} />
+              </button>
 
-            {/* Goal text */}
-            <p className="text-charcoal leading-relaxed pr-6">
-              &gt; {goal.goalText}
-            </p>
+              {/* User Name */}
+              <p className="text-xs font-semibold text-charcoal mb-2">
+                {goal.userName}
+              </p>
 
-            {/* Date */}
-            <p className="text-xs text-charcoal-light mt-4">
-              {new Date(goal.createdAt).toLocaleDateString('en-US', {
-                month: 'short',
-                year: 'numeric'
-              })}
-            </p>
-          </div>
+              {/* Goal text */}
+              <p className="text-charcoal leading-relaxed flex-grow">
+                &gt; {goal.goalText}
+              </p>
+
+              {/* Date */}
+              <p className="text-xs text-charcoal-light mt-auto pt-4">
+                {new Date(goal.createdAt).toLocaleDateString('en-US', {
+                  month: 'short',
+                  year: 'numeric'
+                })}
+              </p>
+            </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* Load More */}
       {hasMore && (

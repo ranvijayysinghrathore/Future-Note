@@ -10,28 +10,34 @@ datasource db {
 }
 
 model Goal {
-  id                String   @id @default(uuid())
-  goalText          String   @db.VarChar(500)
-  email             String   // Encrypted
-  createdAt         DateTime @default(now())
+  id                String       @id @default(uuid())
+  goalText          String       @db.VarChar(500)
+  email             String       // Encrypted
+  userName          String       @default("Anonymous") @db.VarChar(50)
+  category          GoalCategory @default(OTHER)
+  template          String?      @db.VarChar(100)
+  shareCount        Int          @default(0)
+  createdAt         DateTime     @default(now())
   reminderDate      DateTime
-  deleteToken       String   @unique
-  unsubscribeToken  String   @unique
-  responseToken     String   @unique
-  isPublic          Boolean  @default(true)
-  isFlagged         Boolean  @default(false)
-  isDeleted         Boolean  @default(false)
-  reminderSent      Boolean  @default(false)
+  deleteToken       String       @unique
+  unsubscribeToken  String       @unique
+  responseToken     String       @unique
+  isPublic          Boolean      @default(true)
+  isFlagged         Boolean      @default(false)
+  isDeleted         Boolean      @default(false)
+  reminderSent      Boolean      @default(false)
   achieved          Boolean?
   achievedAt        DateTime?
   ipAddress         String
 
   emailLogs EmailLog[]
   reports   Report[]
+  badges    UserBadge[]
 
   @@index([reminderDate, reminderSent])
   @@index([isDeleted, isFlagged, isPublic])
   @@index([ipAddress])
+  @@index([category])
 }
 
 model EmailLog {
@@ -91,4 +97,38 @@ enum EmailStatus {
 enum AdminRole {
   SUPER_ADMIN
   MODERATOR
+}
+
+enum GoalCategory {
+  CAREER
+  HEALTH
+  FINANCE
+  RELATIONSHIPS
+  LEARNING
+  OTHER
+}
+
+model Badge {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String
+  icon        String
+  criteria    String
+  createdAt   DateTime @default(now())
+
+  userBadges UserBadge[]
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  goalId    String
+  badgeId   String
+  awardedAt DateTime @default(now())
+
+  goal  Goal  @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([goalId, badgeId])
+  @@index([goalId])
+  @@index([badgeId])
 }

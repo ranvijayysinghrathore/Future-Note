@@ -20,6 +20,7 @@ export default function GoalSubmissionModal({ isOpen, onClose, onSuccess }: Goal
   const [step, setStep] = useState<'input' | 'confirm' | 'final'>('input');
   const [goalText, setGoalText] = useState('');
   const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('Anonymous');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -43,7 +44,7 @@ export default function GoalSubmissionModal({ isOpen, onClose, onSuccess }: Goal
       const response = await fetch('/api/goals/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ goalText, email }),
+        body: JSON.stringify({ goalText, email, userName }),
       });
 
       const data = await response.json();
@@ -68,6 +69,7 @@ export default function GoalSubmissionModal({ isOpen, onClose, onSuccess }: Goal
   const handleClose = () => {
     setGoalText('');
     setEmail('');
+    setUserName('Anonymous');
     setError('');
     setStep('input');
     onClose();
@@ -78,7 +80,9 @@ export default function GoalSubmissionModal({ isOpen, onClose, onSuccess }: Goal
       goalText={goalText} 
       setGoalText={setGoalText} 
       email={email} 
-      setEmail={setEmail} 
+      setEmail={setEmail}
+      userName={userName}
+      setUserName={setUserName}
       error={error} 
       onSubmit={handleInitialSubmit}
     />,
@@ -162,11 +166,13 @@ interface InputStepProps {
   setGoalText: (text: string) => void;
   email: string;
   setEmail: (email: string) => void;
+  userName: string;
+  setUserName: (name: string) => void;
   error: string;
   onSubmit: (e: React.FormEvent) => void;
 }
 
-function InputStep({ goalText, setGoalText, email, setEmail, error, onSubmit }: InputStepProps) {
+function InputStep({ goalText, setGoalText, email, setEmail, userName, setUserName, error, onSubmit }: InputStepProps) {
   return (
     <form onSubmit={onSubmit} className="space-y-6">
       <div className="space-y-2">
@@ -196,6 +202,22 @@ function InputStep({ goalText, setGoalText, email, setEmail, error, onSubmit }: 
           )}
         </div>
 
+        {/* Name Input */}
+        <div>
+          <label htmlFor="userName" className="block text-sm font-semibold text-charcoal mb-2 ml-1">Your Name</label>
+          <input
+            id="userName"
+            type="text"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            placeholder="Anonymous"
+            className="w-full p-4 rounded-xl bg-off-white border-2 border-transparent focus:border-charcoal/10 focus:bg-white transition-all duration-300 outline-none shadow-inner font-medium placeholder:text-gray-400"
+            maxLength={50}
+          />
+          <p className="text-xs text-charcoal-light/70 mt-1 ml-1">Use &quot;Anonymous&quot; if you prefer not to share</p>
+        </div>
+
+        {/* Email Input */}
         <div>
          <label htmlFor="email" className="block text-sm font-semibold text-charcoal mb-2 ml-1">Email for Reminder</label>
           <input

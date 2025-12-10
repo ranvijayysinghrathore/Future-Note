@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { goalText, email } = validation.data;
+    const { goalText, email, userName, category } = validation.data;
 
     // Sanitize goal text
     const sanitizedGoalText = sanitizeText(goalText);
@@ -80,6 +80,8 @@ export async function POST(request: NextRequest) {
       data: {
         goalText: sanitizedGoalText,
         email: encryptedEmail,
+        userName: userName || 'Anonymous',
+        category: category || 'OTHER',
         reminderDate,
         deleteToken,
         unsubscribeToken,
