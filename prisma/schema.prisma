@@ -1,38 +1,34 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
 model Goal {
-  id                String       @id @default(uuid())
-  goalText          String       @db.VarChar(500)
-  email             String       // Encrypted
-  userName          String       @default("Anonymous") @db.VarChar(50)
-  category          GoalCategory @default(OTHER)
-  template          String?      @db.VarChar(100)
-  shareCount        Int          @default(0)
-  createdAt         DateTime     @default(now())
-  reminderDate      DateTime
-  deleteToken       String       @unique
-  unsubscribeToken  String       @unique
-  responseToken     String       @unique
-  isPublic          Boolean      @default(true)
-  isFlagged         Boolean      @default(false)
-  isDeleted         Boolean      @default(false)
-  reminderSent      Boolean      @default(false)
-  achieved          Boolean?
-  achievedAt        DateTime?
-  ipAddress         String
-
-  emailLogs EmailLog[]
-  reports   Report[]
-  badges    UserBadge[]
+  id               String       @id @default(uuid())
+  goalText         String       @db.VarChar(500)
+  email            String
+  createdAt        DateTime     @default(now())
+  reminderDate     DateTime
+  deleteToken      String       @unique
+  unsubscribeToken String       @unique
+  responseToken    String       @unique
+  isPublic         Boolean      @default(true)
+  isFlagged        Boolean      @default(false)
+  isDeleted        Boolean      @default(false)
+  reminderSent     Boolean      @default(false)
+  achieved         Boolean?
+  achievedAt       DateTime?
+  ipAddress        String
+  category         GoalCategory @default(OTHER)
+  shareCount       Int          @default(0)
+  template         String?      @db.VarChar(100)
+  userName         String       @default("Anonymous") @db.VarChar(50)
+  emailLogs        EmailLog[]
+  reports          Report[]
+  badges           UserBadge[]
 
   @@index([reminderDate, reminderSent])
   @@index([isDeleted, isFlagged, isPublic])
@@ -41,15 +37,14 @@ model Goal {
 }
 
 model EmailLog {
-  id               String        @id @default(uuid())
+  id               String      @id @default(uuid())
   goalId           String
   emailType        EmailType
   status           EmailStatus
-  sentAt           DateTime      @default(now())
+  sentAt           DateTime    @default(now())
   mailgunMessageId String?
   errorMessage     String?
-
-  goal Goal @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  goal             Goal        @relation(fields: [goalId], references: [id], onDelete: Cascade)
 
   @@index([goalId])
   @@index([status])
@@ -62,8 +57,7 @@ model Report {
   reportedAt DateTime @default(now())
   ipAddress  String
   resolved   Boolean  @default(false)
-
-  goal Goal @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  goal       Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
 
   @@index([goalId])
   @@index([resolved])
@@ -72,14 +66,37 @@ model Report {
 model Admin {
   id          String    @id @default(cuid())
   email       String    @unique
+  password    String
   name        String
-  password    String    // bcrypt hashed
   role        AdminRole
   createdAt   DateTime  @default(now())
   lastLoginAt DateTime?
   isActive    Boolean   @default(true)
 
   @@index([email])
+}
+
+model Badge {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String
+  icon        String
+  criteria    String
+  createdAt   DateTime    @default(now())
+  userBadges  UserBadge[]
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  goalId    String
+  badgeId   String
+  awardedAt DateTime @default(now())
+  badge     Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  goal      Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
+
+  @@unique([goalId, badgeId])
+  @@index([goalId])
+  @@index([badgeId])
 }
 
 enum EmailType {
@@ -106,29 +123,4 @@ enum GoalCategory {
   RELATIONSHIPS
   LEARNING
   OTHER
-}
-
-model Badge {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  description String
-  icon        String
-  criteria    String
-  createdAt   DateTime @default(now())
-
-  userBadges UserBadge[]
-}
-
-model UserBadge {
-  id        String   @id @default(cuid())
-  goalId    String
-  badgeId   String
-  awardedAt DateTime @default(now())
-
-  goal  Goal  @relation(fields: [goalId], references: [id], onDelete: Cascade)
-  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
-
-  @@unique([goalId, badgeId])
-  @@index([goalId])
-  @@index([badgeId])
 }

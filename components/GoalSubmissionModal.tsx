@@ -176,7 +176,7 @@ function InputStep({ goalText, setGoalText, email, setEmail, userName, setUserNa
   return (
     <form onSubmit={onSubmit} className="space-y-6">
       <div className="space-y-2">
-        <h2 className="text-3xl font-bold text-charcoal">Set Your <span className="text-charcoal bg-clip-text bg-gradient-to-r from-charcoal to-charcoal-light">4-Year Goal</span></h2>
+        <h2 className="text-3xl font-bold text-charcoal">Set Your <span className="text-charcoal bg-clip-text bg-gradient-to-r from-charcoal to-charcoal-light">2026 Goal</span></h2>
         <p className="text-charcoal-light text-sm">Design your future. We&apos;ll keep it safe.</p>
       </div>
 
@@ -188,8 +188,8 @@ function InputStep({ goalText, setGoalText, email, setEmail, userName, setUserNa
                id="goalText"
                value={goalText}
                onChange={(e) => setGoalText(e.target.value)}
-               placeholder="In 4 years, I will be..."
-               className="w-full p-4 rounded-xl bg-off-white border-2 border-transparent focus:border-charcoal/10 focus:bg-white transition-all duration-300 outline-none resize-none h-40 text-lg leading-relaxed shadow-inner placeholder:text-gray-400"
+               placeholder="In 2026, I will be..."
+               className="w-full p-4 rounded-xl bg-off-white border-2 border-transparent focus:border-charcoal/10 focus:bg-white transition-all duration-300 outline-none resize-none h-40 text-lg leading-relaxed shadow-inner placeholder:text-gray-400 placeholder:text-sm"
                maxLength={500}
                required
              />
@@ -211,7 +211,7 @@ function InputStep({ goalText, setGoalText, email, setEmail, userName, setUserNa
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             placeholder="Anonymous"
-            className="w-full p-4 rounded-xl bg-off-white border-2 border-transparent focus:border-charcoal/10 focus:bg-white transition-all duration-300 outline-none shadow-inner font-medium placeholder:text-gray-400"
+            className="w-full p-4 rounded-xl bg-off-white border-2 border-transparent focus:border-charcoal/10 focus:bg-white transition-all duration-300 outline-none shadow-inner font-medium placeholder:text-gray-400 placeholder:text-sm"
             maxLength={50}
           />
           <p className="text-xs text-charcoal-light/70 mt-1 ml-1">Use &quot;Anonymous&quot; if you prefer not to share</p>
@@ -226,7 +226,7 @@ function InputStep({ goalText, setGoalText, email, setEmail, userName, setUserNa
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
-            className="w-full p-4 rounded-xl bg-off-white border-2 border-transparent focus:border-charcoal/10 focus:bg-white transition-all duration-300 outline-none shadow-inner font-medium placeholder:text-gray-400"
+            className="w-full p-4 rounded-xl bg-off-white border-2 border-transparent focus:border-charcoal/10 focus:bg-white transition-all duration-300 outline-none shadow-inner font-medium placeholder:text-gray-400 placeholder:text-sm"
             required
           />
         </div>

@@ -16,9 +16,13 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "FutureNote - Set Your 4-Year Goals",
-  description: "Set it once. Remember it later. Write your 4-year goal and get reminded when it's time to reflect.",
+  title: "FutureNote - Lock In Your 2026 Goal",
+  description: "Set it once. Lock it in. Write your goal for 2026 and get reminded on Dec 31st.",
 };
+
+import MeshGradient from "@/components/MeshGradient";
+import Navbar from "@/components/Navbar";
+import CustomCursor from "@/components/CustomCursor";
 
 export default function RootLayout({
   children,
@@ -27,7 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} ${playfair.variable} antialiased`}>
+      <body className={`${poppins.variable} ${playfair.variable} antialiased`} suppressHydrationWarning>
+        <CustomCursor />
+        <MeshGradient />
+        <Navbar />
         {children}
         <Analytics />
       </body>

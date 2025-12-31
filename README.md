@@ -1,14 +1,13 @@
 # FutureNote
 
-Set your 4-year goals and get reminded when it's time to reflect.
+Set your 2026 goals and get reminded when it's time to reflect.
 
 ## Features
 
 - 📝 Submit goals with email confirmation
 - 🔒 Encrypted email storage
-- ⏰ Automated 4-year reminders via cron jobs
+- ⏰ Automated reminders on Dec 31, 2026 via cron jobs
 - 📊 Public goal feed
-- 🎯 Achievement tracking
 - � Content moderation (reporting/flagging)
 
 ## Tech Stack

@@ -1,0 +1,28 @@
+
+[2025-12-11T11:02:32.109Z] Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+Stack: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (D:\Programs\Next js {projects}\Future Note\futurenote\.next\dev\server\chunks\node_modules_e15fe952._.js:9200:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async makeRequest (D:\Programs\Next js {projects}\Future Note\futurenote\.next\dev\server\chunks\node_modules_e15fe952._.js:9172:9)
+    at async generateContent (D:\Programs\Next js {projects}\Future Note\futurenote\.next\dev\server\chunks\node_modules_e15fe952._.js:9614:22)
+    at async POST (D:\Programs\Next js {projects}\Future Note\futurenote\.next\dev\server\chunks\[root-of-the-server]__847e4a47._.js:105:24)
+    at async AppRouteRouteModule.do (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:37789)
+    at async AppRouteRouteModule.handle (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:45045)
+    at async responseGenerator (D:\Programs\Next js {projects}\Future Note\futurenote\.next\dev\server\chunks\node_modules_e15fe952._.js:15863:38)
+    at async AppRouteRouteModule.handleResponse (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:1:187851)
+    at async handleResponse (D:\Programs\Next js {projects}\Future Note\futurenote\.next\dev\server\chunks\node_modules_e15fe952._.js:15925:32)
+    at async handler (D:\Programs\Next js {projects}\Future Note\futurenote\.next\dev\server\chunks\node_modules_e15fe952._.js:15978:13)
+    at async DevServer.renderToResponseWithComponentsImpl (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\server\base-server.js:1413:9)
+    at async DevServer.renderPageComponent (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\server\base-server.js:1465:24)
+    at async DevServer.renderToResponseImpl (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\server\base-server.js:1515:32)
+    at async DevServer.pipeImpl (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\server\base-server.js:1021:25)
+    at async NextNodeServer.handleCatchallRenderRequest (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\server\next-server.js:394:17)
+    at async DevServer.handleRequestImpl (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\server\base-server.js:912:17)
+    at async D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\server\dev\next-dev-server.js:382:20
+    at async Span.traceAsyncFn (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\trace\trace.js:157:20)
+    at async DevServer.handleRequest (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\server\dev\next-dev-server.js:378:24)
+    at async invokeRender (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\server\lib\router-server.js:240:21)
+    at async handleRequest (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\server\lib\router-server.js:436:24)
+    at async requestHandlerImpl (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\server\lib\router-server.js:484:13)
+    at async Server.requestListener (D:\Programs\Next js {projects}\Future Note\futurenote\node_modules\next\dist\server\lib\start-server.js:226:13)
+API Key Configured: true

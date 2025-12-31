@@ -36,12 +36,12 @@ export async function sendConfirmationEmail(
         </head>
         <body>
           <div class="container">
-            <h1>✨ Your 4-Year Goal Has Been Saved</h1>
-            <p>Thank you for setting your 4-year goal with FutureNote!</p>
+            <h1>✨ Your 2026 Goal Has Been Saved</h1>
+            <p>Thank you for setting your 2026 goal with FutureNote!</p>
             
             <div class="goal">"${goalText}"</div>
             
-            <p>We'll send you a reminder in exactly 4 years to see if you achieved it.</p>
+            <p>We'll send you a reminder on <strong>December 31, 2026</strong> to see if you achieved it.</p>
             
             <p>If you'd like to delete your goal, click the button below:</p>
             <a href="${deleteUrl}" class="button">Delete My Goal</a>
@@ -57,7 +57,7 @@ export async function sendConfirmationEmail(
     const result = await transporter.sendMail({
       from: `"FutureNote" <${GMAIL_EMAIL}>`,
       to: email,
-      subject: 'Your 4-Year Goal Has Been Saved ✨',
+      subject: 'Your 2026 Goal Has Been Saved ✨',
       html,
     });
     
@@ -103,8 +103,8 @@ export async function sendReminderEmail(
         </head>
         <body>
           <div class="container">
-            <h1>🎯 It's Been 4 Years!</h1>
-            <p>Four years ago, you set this goal:</p>
+            <h1>🎯 The Year is 2026!</h1>
+            <p>In the past, you set this goal:</p>
             
             <div class="goal">"${goalText}"</div>
             
@@ -128,7 +128,7 @@ export async function sendReminderEmail(
     const result = await transporter.sendMail({
       from: `"FutureNote" <${GMAIL_EMAIL}>`,
       to: email,
-      subject: '🎯 Your 4-Year Goal Reminder',
+      subject: '🎯 Your 2026 Goal Reminder',
       html,
     });
     

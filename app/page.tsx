@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Plus, CheckCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import GoalsGrid from '@/components/GoalsGrid';
 import GoalSubmissionModal from '@/components/GoalSubmissionModal';
 
@@ -21,46 +22,75 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-off-white relative overflow-hidden">
-      {/* Mesh Gradients - Global Background (Subtle Off-White/Warm) */}
-      <div className="absolute top-[-10%] left-[-20%] w-[1200px] h-[1200px] bg-amber-50/20 rounded-full blur-[180px]  pointer-events-none fixed" />
-      <div className="absolute top-[20%] right-[-20%] w-[1000px] h-[1000px] bg-stone-100/40 rounded-full blur-[180px]  delay-700 pointer-events-none fixed" />
-      <div className="absolute bottom-[-10%] left-[10%] w-[1400px] h-[1400px] bg-orange-50/30 rounded-full blur-[180px]  delay-1000 pointer-events-none fixed" />
+    <main className="min-h-screen relative overflow-hidden">
+      {/* Mesh background is provided by RootLayout */}
 
       {/* Header Buttons */}
-      <div className="fixed top-6 right-6 z-40 flex gap-3">
-        {/* Achievers Button */}
-        {/* <a
-          href="/achievers"
-          className="bg-white text-charcoal px-3 py-2 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 font-semibold border-2 border-charcoal flex items-center gap-2 text-sm"
-          title="View Achievers"
-        >
-          <span className="text-base">🏆</span>
-        </a> */}
-
+      <div className="fixed top-6 right-6 z-40">
         {/* Add Goal Button */}
         <button
           onClick={() => setIsModalOpen(true)}
-          className="fixed top-6 right-6 z-40 bg-charcoal text-white p-4 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 group"
+          className="bg-charcoal text-white p-4 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 group"
           title="Add your goal"
         >
-        <Plus size={24} className="group-hover:rotate-90 transition-transform duration-300" />
-      </button>
+          <Plus size={24} className="group-hover:rotate-90 transition-transform duration-300" />
+        </button>
       </div>
 
       {/* Success Toast */}
-      {showSuccess && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 fade-in">
-          <CheckCircle size={20} />
-          <span className="font-medium">Goal saved! Check your email for confirmation.</span>
-        </div>
-      )}
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            initial={{ opacity: 0, y: -100, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.9 }}
+            className="fixed top-12 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-2rem)] max-w-md"
+          >
+            <div className="relative overflow-hidden rounded-3xl bg-white p-1 shadow-[0_30px_90px_rgba(34,197,94,0.15)] ring-1 ring-black/5">
+              <div className="relative bg-white rounded-[1.4rem] p-5 flex items-center gap-4">
+                {/* Text Content */}
+                <div className="flex-1">
+                  <h4 className="text-gray-900 font-bold text-lg tracking-tight">Goal Saved!</h4>
+                  <p className="text-gray-500 text-sm font-medium leading-relaxed">
+                    Check your email for confirmation.
+                  </p>
+                </div>
+
+                {/* Animated Progress Bar */}
+                <motion.div 
+                  initial={{ width: "100%" }}
+                  animate={{ width: "0%" }}
+                  transition={{ duration: 5, ease: "linear" }}
+                  className="absolute bottom-0 left-0 h-1.5 bg-gradient-to-r from-green-500 to-emerald-600"
+                />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Main Content Container */}
       <div className="flex flex-col items-center w-full relative z-10">
-        <section className="h-[50vh] flex items-center justify-center px-4 relative w-full">
+        <section className="h-[60vh] flex items-center justify-center px-4 relative w-full overflow-visible">
           
-          <div className="text-center max-w-3xl mx-auto relative z-10 fade-in">
+          {/* Floating Elements (Background) */}
+          <div className="absolute top-[12%] left-[3%] md:left-[10%] hover:scale-110 transition-transform duration-500 cursor-pointer hidden sm:block animate-float">
+              <div className="bg-gradient-to-br from-[#FFB800] to-[#FF8A00] text-white w-28 h-20 md:w-40 md:h-28 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] transform -rotate-12 shadow-[0_20px_50px_rgba(255,184,0,0.3)] flex flex-col items-center justify-center hover:shadow-[0_30px_60px_rgba(255,184,0,0.4)] transition-all border-2 border-white/30 backdrop-blur-sm relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <span className="font-bold text-lg md:text-xl tracking-tighter font-playfair drop-shadow-md">LOCK IN</span>
+              </div>
+          </div>
+
+          <div className="absolute bottom-[18%] right-[3%] md:right-[10%] hover:scale-110 transition-transform duration-500 cursor-pointer hidden sm:block animate-float-delayed">
+              <div className="bg-gradient-to-br from-[#00D1FF] to-[#007AFF] text-white w-32 h-24 md:w-44 md:h-32 rounded-[60%_40%_30%_70%/60%_30%_70%_40%] transform rotate-6 shadow-[0_20px_50px_rgba(0,209,255,0.3)] flex flex-col items-center justify-center hover:shadow-[0_30px_60px_rgba(0,209,255,0.4)] transition-all border-2 border-white/30 backdrop-blur-sm relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <span className="font-bold text-xl md:text-3xl tracking-tighter font-playfair drop-shadow-md">2026</span>
+              </div>
+          </div>
+
+
+
+          <div className="text-center max-w-4xl mx-auto relative z-10 fade-in px-4">
             <h1 
               className="text-6xl md:text-7xl lg:text-8xl font-bold text-charcoal mb-4 tracking-tight"
               style={{ fontFamily: 'var(--font-playfair), serif' }}
@@ -68,14 +98,14 @@ export default function Home() {
               FutureNote
             </h1>
             <p className="text-sm md:text-base text-charcoal/60 uppercase tracking-widest mb-8 font-medium">
-              Set it once and commit yourself
+              Lock in your 2026 Goal
             </p>
-            <p className="text-lg md:text-xl text-charcoal-light max-w-2xl mx-auto leading-relaxed">
-              Write your 4-year goal today. We&apos;ll remind you when it&apos;s time to reflect.
+            <p className="text-base md:text-lg text-charcoal-light/80 max-w-xl mx-auto leading-relaxed opacity-0 animate-[slideUp_1s_ease-out_0.5s_forwards]">
+              Write your goal for 2026. <br className="hidden md:block"/> We&apos;ll remind you on <span className="text-charcoal decoration-1 decoration-orange-400/50 underline-offset-4">Dec 31st</span> to see if you achieved it.
             </p>
             
             {/* Scroll Indicator */}
-            <div className="absolute bottom-[-60px] left-1/2 -translate-x-1/2 animate-bounce opacity-50">
+            <div className="absolute bottom-[-80px] left-1/2 -translate-x-1/2 animate-bounce opacity-50">
                <span className="text-2xl">↓</span>
             </div>
           </div>

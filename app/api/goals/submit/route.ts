@@ -71,9 +71,8 @@ export async function POST(request: NextRequest) {
     const unsubscribeToken = generateUnsubscribeToken();
     const responseToken = generateResponseToken();
 
-    // Calculate reminder date (4 years from now)
-    const reminderDate = new Date();
-    reminderDate.setFullYear(reminderDate.getFullYear() + 4);
+    // Calculate reminder date (December 31, 2026)
+    const reminderDate = new Date('2026-12-31T23:59:59');
 
     // Create goal in database
     const goal = await prisma.goal.create({
